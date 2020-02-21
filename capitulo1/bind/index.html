@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <main class="min-h-screen bg-gray-300 flex flex-col items-center justify-center" id="app">
+        <article v-bind:class="[border, text, backgroundLight]" class="transition duration-100 ease-in w-10/12 md:w-5/12 max-w-xs rounded shadow-md border-4 border-red-800 px-8 py-4 bg-red-100 relative">
+            <picture :class="[background, border]" class="transition duration-100 ease-in absolute top-0 left-0 -ml-4 -mt-4 rounded-full border-4 flex justify-center items-center h-10 w-10 mx-auto">
+                <i v-bind:class="icon" class="fas text-white"></i>
+            </picture>
+            <h3 :class="text" class="transition duration-100 ease-in font-black text-4xl"> {{ title }} </h3>
+            <div class="p-4">
+                <button v-bind:class="{ hidden: title === 'Exito' }" class="px-4 py-2 rounded-full bg-green-500 text-white border-2 border-green-800 hover:shadow-md hover:bg-green-600 mx-2" v-on:click="changeTo('exito')">Exito</button>
+                <button
+                    v-bind:class="{ hidden: title === 'Espera' }"
+                    class="px-4 py-2 rounded-full bg-blue-500 text-white border-2 border-blue-800 hover:shadow-md hover:bg-blue-600 mx-2"
+                    @click="changeTo('espera')"
+                >
+                    Espera
+                </button>
+                <button
+                    v-bind:class="{ hidden: title === 'Error' }"
+                    class="px-4 py-2 rounded-full bg-red-500 text-white border-2 border-red-800 hover:shadow-md hover:bg-red-600 mx-2"
+                    @click="changeTo('error')"
+                >
+                    Error
+                </button>
+            </div>
+        </article>
+
+    </main>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                title: 'Error',
+                text: 'text-red-500',
+                border: 'border-red-800',
+                background: 'bg-red-500',
+                backgroundHover: 'bg-red-800',
+                backgroundLight: 'bg-red-100',
+                icon: 'fa-times'
+            },
+            methods: {
+                changeTo(state) {
+                    let data = {};
+                    switch (state) {
+                        case 'error':
+                            this.title = 'Error',
+                            this.text = 'text-red-500',
+                            this.border = 'border-red-800',
+                            this.background = 'bg-red-500',
+                            this.backgroundHover = 'bg-red-800',
+                            this.backgroundLight = 'bg-red-100',
+                            this.icon = 'fa-times'
+                            break;
+                        case 'exito':
+                            this.title = 'Exito',
+                            this.text = 'text-green-500',
+                            this.border = 'border-green-800',
+                            this.background = 'bg-green-500',
+                            this.backgroundHover = 'bg-green-800',
+                            this.backgroundLight = 'bg-green-100',
+                            this.icon = 'fa-check'
+                            break;
+                        case 'espera':
+                            this.title = 'Espera',
+                            this.text = 'text-blue-500',
+                            this.border = 'border-blue-800',
+                            this.background = 'bg-blue-500',
+                            this.backgroundHover = 'bg-blue-800',
+                            this.backgroundLight = 'bg-blue-100',
+                            this.icon = 'fa-clock'
+                            break;
+                        default:
+                            this.title = 'Default',
+                            this.text = 'text-gray-500',
+                            this.border = 'border-gray-800',
+                            this.background = 'bg-gray-500',
+                            this.backgroundHover = 'bg-gray-800',
+                            this.backgroundLight = 'bg-gray-100',
+                            this.icon = 'fa-code'
+                            break;
+                    }
+                }
+            },
+        })
+    </script>
+</body>
+</html>

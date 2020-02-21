@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <main class="min-h-screen bg-gray-200 flex flex-col" id='app'>
+        <h1 class="m-10 text-center text-4xl">Cantidad de clicks: {{ clicks }} </h1>
+        <section class="w-full flex px-12 py-2 border-b border-gray-600 shadow mb-10">
+            <button class="rounded px-4 py-2 border-2 border-blue-500 font-blod uppercase text-blue-500 mx-4 hover:bg-blue-500 hover:text-white hover:shadow" v-on:click.once="agregar()">Unico</button>
+            <button class="rounded px-4 py-2 border-2 border-blue-500 font-blod uppercase text-blue-500 mx-4 hover:bg-blue-500 hover:text-white hover:shadow" v-on:click.right="agregar()">Derecha</button>
+            <button class="rounded px-4 py-2 border-2 border-blue-500 font-blod uppercase text-blue-500 mx-4 hover:bg-blue-500 hover:text-white hover:shadow" v-on:click.middle="agregar()">Medio</button>
+            <button class="rounded px-4 py-2 border-2 border-blue-500 font-blod uppercase text-blue-500 mx-4 hover:bg-blue-500 hover:text-white hover:shadow" v-on:click.left="agregar()">Izquierda</button>
+            <a v-on:click.prevent class="rounded px-4 py-2 border-2 border-red-500 font-blod uppercase text-red-500 mx-4 hover:bg-red-500 hover:text-white hover:shadow" href="google.com">Ir a Googre</a>
+        </section>
+        <section  class="w-full flex px-12 py-2 border-b border-gray-600 shadow mb-10">
+            <div v-on:click.self="agregar()" class="px-6 py-4 rounded border-2 border-green-500 font-blod uppercase text-green-500 mx-4 hover:bg-green-200 hover:text-white hover:shadow">
+                <button v-on:click="reset" class="px-6 py-4 rounded border-2 border-green-500 bg-green-500 font-blod uppercase text-white mx-4 hover:bg-transparent hover:text-green-500 hover:shadow">Mi Viejo agrega. Yo no tanto</button>
+            </div>
+            <div>
+                <input class="rounded mb-4 mr-4 px-2 py-1" v-on:keyup.enter="agregar()" placeholder="enter"/>
+                <input class="rounded mb-4 mr-4 px-2 py-1" v-on:keyup.up="agregar(1)" placeholder="up"/>
+                <input class="rounded mb-4 mr-4 px-2 py-1" v-on:keyup.down="agregar(-1)" placeholder="down"/>
+                <input class="rounded mb-4 mr-4 px-2 py-1" v-on:keyup.left="agregar(-10)" placeholder="left"/>
+                <input class="rounded mb-4 mr-4 px-2 py-1" v-on:keyup.right="agregar(10)" placeholder="right"/>
+                <input class="rounded mb-4 mr-4 px-2 py-1" v-on:keyup.delete="resete" placeholder="delete"/>
+                <input class="rounded mb-4 mr-4 px-2 py-1" @keyup.down.shift="agregar(99)" placeholder="Magia"/>
+            </div>
+        </section>
+    </main>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            //Modulos
+            data: {
+                clicks: 0
+            },
+            methods: {
+                agregar (amount = 1) {
+                    this.clicks += amount
+                },
+                reset () {
+                    this.clicks = 0
+                }
+            },
+            computed: {/* Atributos Dinamicos */},
+            watch: {}
+        })
+    </script>
+</body>
+</html>

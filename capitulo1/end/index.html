@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capitulo 1: Vue</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .modal {
+            backdrop-filter: blur(12px); 
+        }
+        .fade-enter-active {
+            transition: all .3s ease;
+        }
+        .fade-leave-active {
+            transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+        .fade-enter, .fade-leave-to
+        {
+            opacity: 0;
+        }
+        .fade-enter-to, .fade-leave
+        {
+            opacity: 75;
+        }
+    </style>
+</head>
+<body>
+    <main class="flex flex-col justify-between bg-teal-400 min-h-screen relative" id="app">
+        <header class="px-6 py-4 bg-teal-300 shadow-inner">
+            Capitulo 1 Vue
+            {{ modalOpen ? 'Abierto' : 'Cerrado' }}
+        </header>
+        <div>
+            <article
+                v-on:click="modalOpen = true"
+                class="bg-gray-100 w-full md:w-1/3 max-w-xs rounded my-5 shadow mx-auto cursor-pointer transform transition duration-500 ease-in-out hover:shadow-2xl hover:-translate-y-6 hover:scale-110"
+            >
+                <section class="text-center font-bold ">
+                    <div class="text-red-600 uppercase bg-transparent px-1 pt-3 pb-1 rounded-t">
+                        <h3 class="text-md">{{ fechas }}</h3>
+                    </div>
+                    <div class="uppercase py-1 bg-gray-400">
+                        <h3 class="text-xs">{{ diasDeCursada }}</h3>
+                    </div>
+                    <div class="text-grey-500 normal-case py-1">
+                        <p class="text-xs font-semibold">{{ mensaje }}</p>
+                    </div>
+                </section>
+                <section class="px-4 pt-1 pb-2 flex flex-col font-osa  ">
+                    <div class="pb-1 flex">
+                        <span class="text-md text-left">
+                            <span class="h-5 w-5 inline-flex items-center justify-center text-red-400">
+                                <i class="fas fa-clock"></i>
+                            </span>
+                            {{ horario }}
+                        </span>
+                    </div>
+                    <div class="flex justify-between font-bold pb-1 items-start">
+                        <span class="text-md text-left">
+                            <span class="h-5 w-5 inline-flex items-center justify-center text-red-400">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </span>
+                            {{ sede }}
+                        </span>
+                        <p class="self-end dt-virtual text-blue-400 uppercase underline font-mono text-md">
+                            VER PRECIO
+                        </p>
+                    </div>
+                </section>
+            </article>
+        </div>
+        <transition name="fade">
+            <div v-show="modalOpen" class="fixed inset-0 z-10 modal opacity-75"></div>
+        </transition>
+        <transition
+            name="custom-classes-transition"
+            enter-active-class="transform transition duration-500 ease-in-out scale-0"
+            leave-to-class="transform transition duration-500 ease-in-out scale-0"
+        >
+            <aside
+                v-if="modalOpen"
+                class="flex justify-center items-center fixed inset-0 z-20"
+            >
+                <div class="rounded bg-gray-100 shadow-md relative z-20 w-1/2 flex p-6">
+                    <aside
+                        v-on:click="modalOpen = false"
+                        class="absolute flex justify-center items-center top-0 right-0 -mt-4 -mr-4 w-8 h-8 border-4 border-white rounded-full bg-white text-red-400 hover:bg-red-400 hover:text-white transform transition duration-500 ease-in-out hover:scale-110"
+                    >
+                        <i class="fas fa-times"></i>
+                    </aside>
+                    <section class="w-2/5">
+                        <div class="text-red-600 uppercase bg-transparent px-1 pt-3 pb-1 rounded-t">
+                            <h3 class="text-md">{{ fechas }}</h3>
+                        </div>
+                        <div class="uppercase py-1">
+                            <h3 class="text-xs">{{ diasDeCursada }}</h3>
+                        </div>
+                        <div class="text-grey-500 py-1">
+                            <p class="text-xs">{{ mensaje }}</p>
+                        </div>
+                        <div class="text-md text-left">
+                            <span class="h-5 w-5 inline-flex items-center justify-center text-red-400">
+                                <i class="fas fa-clock"></i>
+                            </span>
+                            {{ horario }}
+                        </div>
+                        <div class="text-md text-left">
+                            <span class="h-5 w-5 inline-flex items-center justify-center text-red-400">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </span>
+                            {{ sede }}
+                        </div>
+                    </section>
+                    <section class="w-3/5">
+                        <div class="flex flex-col justify-between font-bold pb-1 items-start">
+                            <div class="p-1 mb-4 bg-blue-200 rounded shadow w-full">
+                                <section>
+                                    <span class="text-blue-700 uppercase font-bold text-xl">
+                                        Matricula 
+                                    </span>
+                                    <span v-if="matriculaDescuento > 0">
+                                        -{{ matriculaDescuento }}%
+                                    </span>
+                                </section>
+                                <section>
+                                    <span class="text-blue-500 line-through">
+                                        ${{ matricula }}
+                                    </span>
+                                    <span v-if="matriculaDescuento > 0" class="font-bold text-xl">
+                                        ${{ matriculaFinal }}
+                                    </span>
+                                </section>
+                            </div>
+                            <div class="p-1 mb-4 bg-blue-200 rounded shadow w-full">
+                                <section>
+                                    <span class="text-blue-700 uppercase font-bold text-xl">
+                                        Precio
+                                    </span>
+                                    <span v-if="costoDescuento > 0">
+                                        -{{ costoDescuento }}%
+                                    </span>
+                                </section>
+                                <section class="-mt-2">
+                                    <span class="text-blue-500 text-sm uppercase"> 12 cuotas sin interes </span>
+                                </section>
+                                <section>
+                                    <span class="text-blue-500 line-through">
+                                        ${{ costo }}
+                                    </span>
+                                    <span v-if="costoDescuento > 0" class="font-bold text-xl">
+                                        ${{ costoFinal }}
+                                    </span>
+                                </section>
+                            </div>
+                            <button class="px-6 py-2 rounded bg-green-300 text-green-800 flex justify-center items-center hover:bg-green-500 hover:text-white transform transition duration-500 ease-in-out hover:scale-110">
+                                <i class="fas fa-dollar-sign pr-2"></i>
+                                <span class="font-bold">
+                                    Comprar
+                                </span>
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </aside>
+        </transition>
+        <footer class="px-6 py-4 bg-teal-300 shadow-inner">
+            by pancho
+        </footer>
+    </main>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                id: 1,
+                inicio: '2020-03-10',
+                fin: '2020-07-28',
+                dias: ['Martes', 'Jueves'],
+                mensaje: '(Martes Presencial y Jueves Remota)',
+                horario: '18:30 a 22:00 hs',
+                sede: 'Mendoza, MDZ',
+                matricula: '5000',
+                matriculaDescuento: '50',
+                costo: '1500',
+                costoDescuento: '10',
+                modalOpen: false
+            },
+            computed: {
+                diasDeCursada() {
+                    return this.formatearDias(this.dias)
+                },
+                fechas() {
+                    return `${this.formatearFecha(this.inicio)} - ${this.formatearFecha(this.fin)}`
+                },
+                matriculaFinal() {
+                    return this.matricula - (this.matricula / this.matriculaDescuento)
+                },
+                costoFinal() {
+                    return this.costo - (this.costo / this.costoDescuento)
+                }
+            },
+            methods: {
+                formatearFecha(fecha){
+                    const options = {day: 'numeric', month: 'long'}
+                    const final = new Date(fecha)
+                    return final.toLocaleDateString("es-ES", options)
+                },
+                formatearDias(dias){
+                    var resultados = "";
+                    if (dias.length === 1) {
+                        resultados = dias[0];
+                    } else if (dias.length === 2) { 
+                        resultados = dias.join(' y ');
+                    } else if (dias.length > 2) {
+                        resultados = dias.slice(0, -1).join(', ') + ' y ' + dias.slice(-1);
+                    }
+                    return resultados;
+                }
+            },
+        })
+    </script>
+</body>
+</html>
